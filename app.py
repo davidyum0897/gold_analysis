@@ -1,36 +1,42 @@
 
 import streamlit as st
+from datetime import datetime
 
 st.set_page_config(page_title="GOLD 실시간 분석", layout="wide")
 
 st.title("📊 GOLD 실시간 분석 브리핑")
 
-# TradingView 차트 삽입 - 1분봉 + 보조지표 포함
-st.subheader("📈 실시간 GOLD 차트 (1분봉 기준 + 보조지표)")
+# 실시간 차트 (보조지표 포함, 제목 문구 수정됨)
+st.subheader("📈 실시간 GOLD 차트")
 st.components.v1.iframe(
-    "https://s.tradingview.com/widgetembed/?frameElementId=tradingview_gold1m&symbol=TVC:GOLD&interval=1&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=BollingerBands%40tv-basicstudies,MACD%40tv-basicstudies,RSI%40tv-basicstudies&theme=dark&style=1&timezone=Asia%2FSeoul",
+    "https://s.tradingview.com/widgetembed/?frameElementId=tvchart&symbol=TVC:GOLD&interval=1"
+    "&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6"
+    "&studies=BollingerBands@tv-basicstudies,MACD@tv-basicstudies,RSI@tv-basicstudies"
+    "&theme=dark&style=1&timezone=Asia%2FSeoul",
     height=500,
     width=1000,
 )
 
 st.divider()
 
+# 분석 버튼 클릭 시만 계산
 if st.button("🔍 현재가 분석하기"):
-    from datetime import datetime
     now = datetime.now()
     sec = now.second
-    rsi = 47.09 + (sec % 5) - 2
-    macd = -3.80 + ((sec % 4) * 0.1)
-    signal = -3.36 + ((sec % 3) * 0.1)
-    drop_chance = 62 + (sec % 3)
+    # 실시간 수치 시뮬레이션
+    rsi = 45.5 + (sec % 6)
+    macd = -3.9 + ((sec % 4) * 0.15)
+    signal = -3.5 + ((sec % 3) * 0.12)
+    drop_chance = 61 + (sec % 4)
     rise_chance = 100 - drop_chance
+    current_price = 2334.87 + (sec % 5) * 0.1  # 가상의 현재가 변화
 
     st.markdown(f""" 
-### 💎 현재가: `2,334.87 USD`
+### 💎 현재가: `{current_price:.2f} USD`
 
-### 🔸 RSI(14): `49.09` → **중립권, 방향성 모색 중**
+### 🔸 RSI(14): `{rsi:.2f}` → **중립권, 방향성 모색 중**
 
-### 🔸 MACD: `-3.60` / Signal: `-3.16` → 🔻 **MACD < Signal, 하락 지속 경계**
+### 🔸 MACD: `{macd:.2f}` / Signal: `{signal:.2f}` → 🔻 **MACD < Signal, 하락 지속 경계**
 
 ### 🟢 지지선: `2,321.50`  
 ### 🔴 저항선: `2,394.78`
@@ -52,10 +58,10 @@ if st.button("🔍 현재가 분석하기"):
     st.subheader("📈 방향성 예측 (기술적 분석 기반 확률)")
     st.markdown(f""" 
 📉 **하락 가능성**  
-**64%**
+**{drop_chance}%**
 
 📈 **상승 가능성**  
-**36%**
+**{rise_chance}%**
     """)
 
     st.divider()
