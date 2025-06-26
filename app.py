@@ -5,6 +5,16 @@ st.set_page_config(page_title="GOLD 실시간 분석", layout="wide")
 
 st.title("📊 GOLD 실시간 분석 브리핑")
 
+# TradingView 차트 삽입
+st.subheader("📈 실시간 GOLD 차트")
+st.components.v1.iframe(
+    "https://kr.tradingview.com/widgetembed/?frameElementId=tradingview_gold&symbol=TVC:GOLD&interval=15&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=BollingerBands%40tv-basicstudies,MACD%40tv-basicstudies,RSI%40tv-basicstudies&theme=dark&style=1&timezone=Asia%2FSeoul",
+    height=500,
+    width=1000,
+)
+
+st.divider()
+
 st.markdown("""
 ### 🔹 현재가: `2,334.87 USD`
 
