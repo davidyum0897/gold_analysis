@@ -6,7 +6,15 @@ st.set_page_config(page_title="GOLD 실시간 분석", layout="wide")
 
 st.title("📊 GOLD 실시간 분석 브리핑")
 
-# 실시간 차트 (보조지표 포함, 제목 문구 수정됨)
+# 실시간 시뮬레이션용 현재 지수 포인트 (예: 3,346.82)
+now = datetime.now()
+sec = now.second
+index_point = 3346.0 + (sec % 10) * 0.1  # 예시: 지수 포인트 변화
+
+# 상단 현재 포인트 숫자 표기
+st.markdown(f"### 📍 현재 포인트: **{index_point:,.2f}**")
+
+# 차트
 st.subheader("📈 실시간 GOLD 차트")
 st.components.v1.iframe(
     "https://s.tradingview.com/widgetembed/?frameElementId=tvchart&symbol=TVC:GOLD&interval=1"
@@ -19,17 +27,14 @@ st.components.v1.iframe(
 
 st.divider()
 
-# 분석 버튼 클릭 시만 계산
+# 분석 버튼
 if st.button("🔍 현재가 분석하기"):
-    now = datetime.now()
-    sec = now.second
-    # 실시간 수치 시뮬레이션
     rsi = 45.5 + (sec % 6)
     macd = -3.9 + ((sec % 4) * 0.15)
     signal = -3.5 + ((sec % 3) * 0.12)
     drop_chance = 61 + (sec % 4)
     rise_chance = 100 - drop_chance
-    current_price = 2334.87 + (sec % 5) * 0.1  # 가상의 현재가 변화
+    current_price = 2334.87 + (sec % 5) * 0.1  # 참고용 현재가
 
     st.markdown(f""" 
 ### 💎 현재가: `{current_price:.2f} USD`
